@@ -1,0 +1,1 @@
+export type ColumnId = 'todo' | 'in-progress' | 'done'

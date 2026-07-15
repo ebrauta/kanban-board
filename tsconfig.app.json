@@ -23,25 +23,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true,
-    /* User definitions */
-    "paths": {
-      "@components/*": [
-        "./src/components/*"
-      ],
-      "@store/*": [
-        "./src/store/*"
-      ],
-      "@models/*": [
-        "./src/models/*"
-      ],
-      "@services/*": [
-        "./src/services/*"
-      ],
-      "@utils/*": [
-        "./src/utils/*"
-      ],
-    }
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "src"

@@ -1,75 +1,61 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+# Kanban Board Interativo
+ 
+## Objetivo do projeto
+ 
+Projeto de estudo/portfólio com foco em treinar frontend moderno com React. A ideia é construir um painel Kanban funcional e visualmente profissional, praticando conceitos como gerenciamento de estado global, tipagem estática, persistência de dados no navegador e manipulação de drag-and-drop nativa do HTML5 — sem depender de bibliotecas prontas para as partes centrais da lógica.
+ 
+## Escopo do MVP (v1)
+ 
+### Essencial
+- Criar, editar e excluir cartões de tarefa
+- Mover cartões entre colunas (**A fazer**, **Em progresso**, **Concluído**) via drag-and-drop
+- Campos de título e descrição em cada cartão
+### Intermediário
+- Tags/categorias coloridas
+- Nível de prioridade (alta/média/baixa) com indicação visual
+- Filtro/busca por texto
+- Data de vencimento (due date)
+### Fora do escopo (planejado para v2)
+- Reordenação avançada com animações
+- Colunas customizáveis pelo usuário
+- Subtarefas/checklist
+- Anexos ou links
+- Histórico de atividades
+- Múltiplos boards
+- Modo escuro e atalhos de teclado
+## Stack escolhida
+ 
+| Camada | Tecnologia | Motivo |
+|---|---|---|
+| Framework | React + Vite | Ambiente rápido para desenvolvimento e build |
+| Linguagem | TypeScript | Tipagem estática, reduz erros e documenta o modelo de dados |
+| Estado global | Zustand | Gerenciamento de estado simples, sem boilerplate, bom para treino |
+| Estilização | Tailwind CSS | Estilo profissional com baixo esforço de manutenção (Bootstrap como alternativa caso Tailwind gere complexidade desnecessária) |
+| Drag-and-drop | HTML5 Drag and Drop API (manual) | Aprendizado mais profundo; biblioteca (ex: dnd-kit) só entra se a implementação manual se mostrar limitada |
+| Persistência | localStorage | Ambiente 100% local, sem necessidade de backend nesta fase |
+ 
+## Modelo de dados
+ 
+```ts
+type Priority = "high" | "medium" | "low";
+type ColumnId = "todo" | "in-progress" | "done";
+ 
+interface Task {
+  id: string;
+  title: string;
+  description: string;
+  tag: string;
+  priority: Priority;
+  dueDate: string;
+  column: ColumnId;
+}
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+ 
+## Decisões técnicas
+ 
+- **Nomenclatura em inglês**: variáveis, funções, componentes e arquivos em inglês; comentários podem ficar em português.
+- **Separação de responsabilidades**: lógica de estado (store Zustand) fica isolada dos componentes de apresentação (`Board`, `Column`, `TaskCard`, `TaskModal`, `FilterBar`).
+- **Abstração de persistência**: a leitura/escrita de dados passa por uma camada de storage/repository própria, hoje implementada com localStorage, mas desenhada para ser substituída por chamadas a uma API/backend no futuro sem alterar os componentes.
+- **Drag-and-drop manual antes de biblioteca**: prioriza aprendizado dos fundamentos; só se recorre a uma lib externa se a solução manual comprometer a experiência.
+- **Nível de polimento**: interface profissional com transições suaves, sombras sutis e responsividade básica — sem efeitos excessivos que aumentem a complexidade sem necessidade.
+- **Ambiente de execução**: projeto pensado para rodar localmente (não em sandbox/artifact), justamente para poder usar localStorage do navegador de forma real.

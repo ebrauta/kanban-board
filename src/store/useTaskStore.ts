@@ -31,7 +31,10 @@ const useTaskStore = create<TaskAttributes & TaskMethods>((set, get) => ({
         return { tasks: updated }
     }),
     updateTask: (id, updates) => set((state) => {
-        const updated = state.tasks.filter((task) => task.id === id ? { ...task, ...updates } : task)
+        const updated = state.tasks.map((task) => task.id === id ? { ...task, ...updates } : task)
+        console.log(id)
+        console.log(updates)
+        console.log(updated)
         saveTasks(updated)
         return { tasks: updated }
     }),

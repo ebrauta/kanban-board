@@ -2,6 +2,7 @@ import { useState, type FC } from "react";
 import type { Task, ColumnId } from "../models";
 import useTaskStore from "../store/useTaskStore";
 import Column from "./Column";
+import TaskModal from "./TaskModal";
 
 const COLUMN_ORDER: ColumnId[] = ['todo', 'in-progress', 'done']
 
@@ -10,7 +11,13 @@ const Board: FC = () => {
     const tasks = getFilteredTasks()
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [editingTask, setEditingTask] = useState<Task | null>(null)
+    const [targetColumn, setTargetColumn] = useState<ColumnId>('todo')
 
+    function handleAddTask(columnId: ColumnId) {
+        setEditingTask(null)
+        setTargetColumn(columnId)
+        setIsModalOpen(true)
+    }
     function handleEditTask(task: Task) {
         setEditingTask(task)
         setIsModalOpen(true)
@@ -32,9 +39,15 @@ const Board: FC = () => {
                     tasks={getTasksByColumn(columnId)}
                     onEditTask={handleEditTask}
                     onDeleteTask={deleteTask}
+                    onAddTask={handleAddTask}
                 />
             ))}
-            {/* Espaço para o modal */}
+            <TaskModal
+                isOpen={isModalOpen}
+                editingTask={editingTask}
+                defaultColumn={targetColumn}
+                onClose={handleCloseModal}
+            />
         </div>
     )
 }

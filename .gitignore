@@ -23,4 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 
-checklist.md
+docs/backlog.md
+docs/checklist.md

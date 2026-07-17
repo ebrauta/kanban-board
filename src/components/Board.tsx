@@ -3,6 +3,7 @@ import type { Task, ColumnId } from "../models";
 import useTaskStore from "../store/useTaskStore";
 import Column from "./Column";
 import TaskModal from "./TaskModal";
+import FilterBar from "./FilterBar";
 
 const COLUMN_ORDER: ColumnId[] = ['todo', 'in-progress', 'done']
 
@@ -33,24 +34,27 @@ const Board: FC = () => {
         moveTask(taskId, columnId)
     }
     return (
-        <div className="flex flex-col md:flex-row gap-4 p-4 w-full">
-            {COLUMN_ORDER.map((columnId) => (
-                <Column
-                    key={columnId}
-                    columnId={columnId}
-                    tasks={getTasksByColumn(columnId)}
-                    onEditTask={handleEditTask}
-                    onDeleteTask={deleteTask}
-                    onAddTask={handleAddTask}
-                    onDropTask={handleDropTask}
+        <div className="flex flex-col gap-4 p-4 w-full">
+            <FilterBar />
+            <div className="flex flex-col md:flex-row gap-4">
+                {COLUMN_ORDER.map((columnId) => (
+                    <Column
+                        key={columnId}
+                        columnId={columnId}
+                        tasks={getTasksByColumn(columnId)}
+                        onEditTask={handleEditTask}
+                        onDeleteTask={deleteTask}
+                        onAddTask={handleAddTask}
+                        onDropTask={handleDropTask}
+                    />
+                ))}
+                <TaskModal
+                    isOpen={isModalOpen}
+                    editingTask={editingTask}
+                    defaultColumn={targetColumn}
+                    onClose={handleCloseModal}
                 />
-            ))}
-            <TaskModal
-                isOpen={isModalOpen}
-                editingTask={editingTask}
-                defaultColumn={targetColumn}
-                onClose={handleCloseModal}
-            />
+            </div>
         </div>
     )
 }

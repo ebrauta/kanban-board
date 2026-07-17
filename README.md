@@ -1,5 +1,7 @@
 # Kanban Board Interativo
 
+🔗 **[Ver projeto publicado](https://ebrauta-kanban-board.vercel.app/)**
+
 ## Objetivo do projeto
 
 Projeto de estudo/portfólio com foco em treinar frontend moderno com React. A ideia é construir um painel Kanban funcional e visualmente profissional, praticando conceitos como gerenciamento de estado global, tipagem estática, persistência de dados no navegador e manipulação de drag-and-drop nativa do HTML5 — sem depender de bibliotecas prontas para as partes centrais da lógica.
@@ -70,4 +72,4 @@ interface Task {
 - **Nível de polimento**: interface profissional com transições suaves, sombras sutis e responsividade básica — sem efeitos excessivos que aumentem a complexidade sem necessidade.
 - **Ambiente de execução**: projeto pensado para rodar localmente (não em sandbox/artifact), justamente para poder usar localStorage do navegador de forma real.
 - **Criação de tarefa por coluna**: o botão "+ Adicionar" fica no rodapé de cada coluna e cria a nova tarefa diretamente ali (não sempre em "A fazer"). Decisão alinhada ao padrão de UX consolidado em ferramentas como Trello, Linear e Jira — evita surpreender o usuário criando a tarefa numa coluna diferente da que ele clicou.
-- **Aliases de import**: planejados inicialmente (`@components`, `@store`, `@models`, etc.), mas removidos temporariamente por problema de resolução no TypeScript/Vite não solucionado ainda — o projeto usa caminhos relativos por enquanto. Retomar como debt técnico (ver backlog).
+- **Aliases de import**: planejados inicialmente (`@components`, `@store`, `@models`, etc.), mas removidos temporariamente por problema de resolução no TypeScript/Vite não solucionado ainda — o projeto usa caminhos relativos por enquanto. Retomar como debt técnico.

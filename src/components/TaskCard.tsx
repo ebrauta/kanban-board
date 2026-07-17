@@ -1,4 +1,4 @@
-import type { FC } from "react"
+import { useState, type DragEvent, type FC } from "react"
 import type { Task } from "../models"
 import { formatDate, isOverdue } from "../utils/date"
 import { Flag, Pencil, Trash2 } from 'lucide-react'
@@ -20,8 +20,27 @@ const priorityIconColor: Record<Task['priority'], string> = {
 
 const TaskCard: FC<TaskCardProps> = ({ task, onEdit, onDelete }) => {
     const overdue = isOverdue(task.dueDate);
+    const [isDragging, setIsDraggind] = useState<boolean>(false)
+
+    function handleDragStart(event: DragEvent<HTMLDivElement>) {
+        event.dataTransfer.setData('text/plain', task.id)
+        event.dataTransfer.effectAllowed = 'move'
+        setIsDraggind(true)
+    }
+    function handleDragEnd() {
+        setIsDraggind(false)
+    }
+
     return (
-        <div className="group bg-white rounded-lg shadow-sm hover:shadow-md tramsition-shadow p-4 flex flex-col gap-2">
+        <div
+            draggable
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            className={clsx(
+                "group bg-white rounded-lg shadow-sm hover:shadow-md tramsition-shadow p-4 flex flex-col gap-2",
+                isDragging && 'opacity-40'
+            )}
+        >
             <div className="flex items-start justify-between gap-2">
                 <h3 className="font-semibold text-slate-800">{task.title}</h3>
                 <Flag size={16} className={clsx('shrink-0 mt-1', priorityIconColor[task.priority])} fill="currentColor" />

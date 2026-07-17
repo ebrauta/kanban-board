@@ -7,7 +7,7 @@ import TaskModal from "./TaskModal";
 const COLUMN_ORDER: ColumnId[] = ['todo', 'in-progress', 'done']
 
 const Board: FC = () => {
-    const { getFilteredTasks, deleteTask } = useTaskStore()
+    const { getFilteredTasks, deleteTask, moveTask } = useTaskStore()
     const tasks = getFilteredTasks()
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [editingTask, setEditingTask] = useState<Task | null>(null)
@@ -29,7 +29,9 @@ const Board: FC = () => {
     function getTasksByColumn(columnId: ColumnId) {
         return tasks.filter((task) => task.column === columnId);
     }
-
+    function handleDropTask(taskId: string, columnId: ColumnId) {
+        moveTask(taskId, columnId)
+    }
     return (
         <div className="flex flex-col md:flex-row gap-4 p-4 w-full">
             {COLUMN_ORDER.map((columnId) => (
@@ -40,6 +42,7 @@ const Board: FC = () => {
                     onEditTask={handleEditTask}
                     onDeleteTask={deleteTask}
                     onAddTask={handleAddTask}
+                    onDropTask={handleDropTask}
                 />
             ))}
             <TaskModal

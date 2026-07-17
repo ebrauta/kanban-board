@@ -1,7 +1,8 @@
-import type { FC } from "react"
+import { useState, type DragEvent, type FC } from "react"
 import { COLUMN_LABELS, type ColumnId, type Task } from "../models"
 import { Inbox, Plus } from "lucide-react"
 import TaskCard from "./TaskCard"
+import clsx from "clsx"
 
 interface ColumnProps {
     columnId: ColumnId
@@ -9,11 +10,33 @@ interface ColumnProps {
     onEditTask: (task: Task) => void
     onDeleteTask: (id: string) => void
     onAddTask: (columnId: ColumnId) => void
+    onDropTask: (taskId: string, columnId: ColumnId) => void
 }
 
-const Column: FC<ColumnProps> = ({ columnId, tasks, onEditTask, onDeleteTask, onAddTask }) => {
+const Column: FC<ColumnProps> = ({ columnId, tasks, onEditTask, onDeleteTask, onAddTask, onDropTask }) => {
+    const [isDragOver, setIsDragOver] = useState<boolean>(false)
+    function handleDragOver(event: DragEvent<HTMLDivElement>) {
+        event.preventDefault()
+        setIsDragOver(true)
+    }
+    function handleDragLeave() {
+        setIsDragOver(false)
+    }
+    function handleDrop(event: DragEvent<HTMLDivElement>) {
+        event.preventDefault()
+        const taskId = event.dataTransfer.getData('text/plain')
+        onDropTask(taskId, columnId)
+        setIsDragOver(false)
+    }
     return (
-        <div className="bg-slate-100 rounded-xl p-3 flex flex-col gap-3 w-full min-w-0">
+        <div
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            className={clsx(
+                'bg-slate-100 rounded-xl p-3 flex flex-col gap-3 w-full min-w-0 border-2 transition-colors',
+                isDragOver ? 'border-blue-400 bg-blue-50' : 'border-transparent'
+            )}>
             <h2 className="font-semibold text-slate-700 px-1">
                 {COLUMN_LABELS[columnId]}{' '}
                 <span className="text-slate-400 font-normal">({tasks.length})</span>

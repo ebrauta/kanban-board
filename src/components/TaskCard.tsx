@@ -1,6 +1,6 @@
 import { useState, type DragEvent, type FC } from "react"
-import type { Task } from "../models"
-import { formatDate, isOverdue } from "../utils/date"
+import type { Task } from "@/models"
+import { formatDate, isOverdue } from "@/utils/date"
 import { Flag, Pencil, Trash2 } from 'lucide-react'
 import { clsx } from "clsx"
 import Badge from "./ui/Badge"
@@ -52,7 +52,7 @@ const TaskCard: FC<TaskCardProps> = ({ task, onEdit, onDelete }) => {
                     {formatDate(task.dueDate)}
                 </span>
             </div>
-            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity justify-end">
+            <div className="flex gap-2 opacity-0 [@media(hover:hover)]:group-hover:opacity-100 [@media(hover:none)]:opacity-100 transition-opacity justify-end">
                 <IconButton
                     icon={<Pencil size={16} />}
                     aria-label="Editar tarefa"

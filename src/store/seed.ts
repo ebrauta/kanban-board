@@ -10,6 +10,7 @@ export const seedTasks: Task[] = [
     priority: 'high',
     dueDate: '2026-07-18',
     column: 'done',
+    links: []
   },
   {
     id: uuidv4(),
@@ -19,6 +20,7 @@ export const seedTasks: Task[] = [
     priority: 'medium',
     dueDate: '2026-07-22',
     column: 'in-progress',
+    links: []
   },
   {
     id: uuidv4(),
@@ -28,5 +30,6 @@ export const seedTasks: Task[] = [
     priority: 'high',
     dueDate: '2026-07-25',
     column: 'todo',
+    links: []
   },
 ]

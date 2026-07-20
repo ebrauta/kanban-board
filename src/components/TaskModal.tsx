@@ -1,9 +1,11 @@
 import { clsx } from "clsx";
+import { v4 as uuidv4 } from 'uuid'
 import { useEffect, useState, type FC, type SyntheticEvent } from "react";
-import type { ColumnId, Priority, Task } from "@/models";
+import type { ColumnId, Priority, Task, TaskLink } from "@/models";
 import useTaskStore from "@/store/useTaskStore";
 import Button from "./ui/Button";
 import Modal from "./ui/Modal";
+import { Plus, X } from "lucide-react";
 
 interface Form {
     title: string
@@ -11,6 +13,7 @@ interface Form {
     tag: string
     priority: Priority
     dueDate: string
+    links: TaskLink[]
 }
 
 interface Option {
@@ -42,7 +45,8 @@ const emptyForm: Form = {
     description: '',
     tag: '',
     priority: 'medium' as Priority,
-    dueDate: ''
+    dueDate: '',
+    links: [] as TaskLink[]
 }
 
 const TaskModal: FC<TaskModalProps> = ({ isOpen, editingTask, defaultColumn, onClose }) => {
@@ -60,7 +64,8 @@ const TaskModal: FC<TaskModalProps> = ({ isOpen, editingTask, defaultColumn, onC
                 description: editingTask.description,
                 tag: editingTask.tag,
                 priority: editingTask.priority,
-                dueDate: editingTask.dueDate
+                dueDate: editingTask.dueDate,
+                links: [...editingTask.links]
             })
         } else {
             setForm(emptyForm)
@@ -68,6 +73,23 @@ const TaskModal: FC<TaskModalProps> = ({ isOpen, editingTask, defaultColumn, onC
         setTitleError(false)
         setDueDateError(false)
     }, [editingTask, isOpen])
+
+    function handleAddLink() {
+        setForm({
+            ...form,
+            links: [...form.links, { id: uuidv4(), label: '', url: '' }]
+        })
+    }
+    function handleUpdateLink(id: string, field: 'label' | 'url', value: string) {
+        setForm({
+            ...form,
+            links: form.links.map((link) => link.id === id ? { ...link, [field]: value } : link)
+        })
+    }
+    function handleRemoveLink(id: string) {
+        setForm({ ...form, links: form.links.filter((link) => link.id !== id) })
+    }
+    const invalidLinks = form.links.some((link => link.url.trim() && !/^https?:\/\//.test(link.url.trim())))
 
     function handleSubmit(event: SyntheticEvent) {
         event.preventDefault()
@@ -165,6 +187,51 @@ const TaskModal: FC<TaskModalProps> = ({ isOpen, editingTask, defaultColumn, onC
                         )}
                     />
                     {dueDateError && (<span className="text-xs text-red-600">Data é obrigatória</span>)}
+                </div>
+                <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-slate-600">Links</span>
+                        <button
+                            type="button"
+                            onClick={handleAddLink}
+                            className="text-xs text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                        >
+                            <Plus size={14} /> Adicionar link
+                        </button>
+                    </div>
+
+                    {form.links.map((link) => (
+                        <div key={link.id} className="flex gap-2 items-start">
+                            <div className="flex-1 flex flex-col gap-1">
+                                <input
+                                    type="text"
+                                    placeholder="Label (opcional)"
+                                    value={link.label}
+                                    onChange={(e) => handleUpdateLink(link.id, 'label', e.target.value)}
+                                    className="border border-slate-300 rounded-lg px-2 py-1 text-xs"
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="https://..."
+                                    value={link.url}
+                                    onChange={(e) => handleUpdateLink(link.id, 'url', e.target.value)}
+                                    className={clsx(
+                                        'border rounded-lg px-2 py-1 text-xs',
+                                        invalidLinks
+                                            ? 'border-red-400'
+                                            : 'border-slate-300'
+                                    )}
+                                />
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => handleRemoveLink(link.id)}
+                                className="text-slate-400 hover:text-red-600 mt-1"
+                            >
+                                <X size={16} />
+                            </button>
+                        </div>
+                    ))}
                 </div>
                 <div className="flex justify-end gap-2 mt-2">
                     <Button type="button" variant="secondary" onClick={onClose}>

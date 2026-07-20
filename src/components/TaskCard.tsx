@@ -1,7 +1,7 @@
 import { useState, type DragEvent, type FC } from "react"
 import type { Task } from "@/models"
 import { formatDate, isOverdue } from "@/utils/date"
-import { Flag, Pencil, Trash2 } from 'lucide-react'
+import { Flag, LinkIcon, Pencil, Trash2 } from 'lucide-react'
 import { clsx } from "clsx"
 import Badge from "./ui/Badge"
 import IconButton from "./ui/IconButton"
@@ -47,7 +47,15 @@ const TaskCard: FC<TaskCardProps> = ({ task, onEdit, onDelete }) => {
             </div>
             <p className="text-sm text-slate-500 line-clamp-2">{task.description}</p>
             <div className="flex items-center justify-between mt-2">
-                <Badge variant="tag">{task.tag}</Badge>
+                <div className="flex items-center gap-2">
+                    <Badge variant="tag">{task.tag}</Badge>
+                    {task.links.length > 0 && (
+                        <span className="flex items-center gap-0.5 text-xs text-slate-400">
+                            <LinkIcon size={12} />
+                            {task.links.length}
+                        </span>
+                    )}
+                </div>
                 <span className={clsx('text-xs', overdue ? 'text-red-600 font-medium' : 'text-slate-400')}>
                     {formatDate(task.dueDate)}
                 </span>

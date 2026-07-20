@@ -1,4 +1,4 @@
-import { type Task } from '../models';
+import { type Task } from '@/models';
 
 const STORAGE_KEY = 'kanban-board:tasks'
 

@@ -1,6 +1,6 @@
 import { useEffect, useState, type FC } from "react";
-import useTaskStore from "../store/useTaskStore";
-import { useDebounce } from "../hooks/useDebounce";
+import useTaskStore from "@/store/useTaskStore";
+import { useDebounce } from "@/hooks/useDebounce";
 import { Search } from "lucide-react";
 
 const FilterBar: FC = () => {

@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from "react"
-import type { Priority } from "../../models"
+import type { Priority } from "@/models"
 import clsx from "clsx"
 
 interface BadgeProps {

@@ -1,5 +1,5 @@
 import { useState, type DragEvent, type FC } from "react"
-import { COLUMN_LABELS, type ColumnId, type Task } from "../models"
+import { COLUMN_LABELS, type ColumnId, type Task } from "@/models"
 import { Inbox, Plus } from "lucide-react"
 import TaskCard from "./TaskCard"
 import clsx from "clsx"

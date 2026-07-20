@@ -1,7 +1,7 @@
 import { clsx } from "clsx";
 import { useEffect, useState, type FC, type SyntheticEvent } from "react";
-import type { ColumnId, Priority, Task } from "../models";
-import useTaskStore from "../store/useTaskStore";
+import type { ColumnId, Priority, Task } from "@/models";
+import useTaskStore from "@/store/useTaskStore";
 import Button from "./ui/Button";
 import Modal from "./ui/Modal";
 

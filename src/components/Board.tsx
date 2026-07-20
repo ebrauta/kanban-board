@@ -1,6 +1,6 @@
 import { useState, type FC } from "react";
-import type { Task, ColumnId } from "../models";
-import useTaskStore from "../store/useTaskStore";
+import type { Task, ColumnId } from "@/models";
+import useTaskStore from "@/store/useTaskStore";
 import Column from "./Column";
 import TaskModal from "./TaskModal";
 import FilterBar from "./FilterBar";

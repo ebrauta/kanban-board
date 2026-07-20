@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { v4 as uuidv4 } from 'uuid'
-import type { Task } from "../models";
-import { getTasks, saveTasks } from "../services/taskStorage";
+import type { Task } from "@/models";
+import { getTasks, saveTasks } from "@/services/taskStorage";
 import { seedTasks } from "./seed";
 
 interface TaskAttributes {

@@ -1,4 +1,4 @@
-import type { Task } from "../models";
+import type { Task } from "@/models";
 import { v4 as uuidv4 } from 'uuid'
 
 export const seedTasks: Task[] = [
